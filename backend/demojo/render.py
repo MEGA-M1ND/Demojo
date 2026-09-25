@@ -25,14 +25,14 @@ from dataclasses import dataclass, field
 from functools import lru_cache
 from pathlib import Path
 
-from PIL import Image, ImageChops, ImageDraw, ImageFilter, ImageOps
+from PIL import Image, ImageChops, ImageDraw, ImageFilter, ImageOps, ImageStat
 
 from . import ffmpeg as ff
 from .storyboard import FPS, Scene, Storyboard
 from .text_render import TextFitError, draw_block, layout
 from .timeline import Timeline, TimelineScene
 
-RENDERER_VERSION = "demojo-render/5"
+RENDERER_VERSION = "demojo-render/7"
 AUDIO_RATE = 48000
 SAMPLES_PER_FRAME = AUDIO_RATE // FPS  # 1600
 
@@ -200,6 +200,35 @@ def _background(theme: Theme, W: int, H: int) -> Image.Image:
     # Gentle grain to prevent visible banding after 8-bit encoding.
     noise = Image.effect_noise((W, H), 18).convert("RGB")
     return Image.blend(img, noise, 0.025)
+
+
+def logo_for_theme(logo_img: Image.Image, theme: Theme, height: int) -> Image.Image:
+    """Resize-aware logo placement: add a backing pill when much of the logo would blend into the background."""
+    lg = logo_img.convert("RGBA")
+    alpha = lg.getchannel("A")
+    solid = alpha.point(lambda a: 255 if a > 128 else 0)
+    total = ImageStat.Stat(solid).sum[0] / 255
+    if total == 0:
+        return lg
+    bg_luma = _luma(mix(theme.bg_a, theme.bg_b, 0.5))
+    lum = lg.convert("L")
+    # The failure case is a near-white logo on a light background (or near-black on dark).
+    if bg_luma > 128:
+        cut = max(200.0, bg_luma - 25)
+        vanishing = lum.point(lambda v: 255 if v >= cut else 0)
+    else:
+        cut = min(55.0, bg_luma + 25)
+        vanishing = lum.point(lambda v: 255 if v <= cut else 0)
+    frac = ImageStat.Stat(ImageChops.multiply(vanishing, solid)).sum[0] / 255 / total
+    if frac < 0.25:
+        return lg
+    pad = max(4, int(height * 0.22))
+    w, h = lg.width + 2 * pad, lg.height + 2 * pad
+    pill = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    fill = (24, 24, 27, 235) if bg_luma > 128 else (250, 250, 250, 240)
+    ImageDraw.Draw(pill).rounded_rectangle((0, 0, w - 1, h - 1), radius=h / 2, fill=fill)
+    pill.alpha_composite(lg, (pad, pad))
+    return pill
 
 
 def _rounded_mask(w: int, h: int, r: int) -> Image.Image:
@@ -447,8 +476,10 @@ def paint_title_stage(sc: Scene, sb: Storyboard, lay: Layout, theme: Theme, logo
         if lw > max_w * 0.6:
             lw = int(max_w * 0.6)
             lh = int(lg.height * lw / lg.width)
-        items.append(("logo", lg.resize((max(1, lw), max(1, lh)), Image.LANCZOS), lh))
-    head = sc.headline or (sb.branding.product_name if sc.role in ("hook", "intro", "cta") else "")
+        lg = logo_for_theme(lg.resize((max(1, lw), max(1, lh)), Image.LANCZOS), theme, lh)
+        items.append(("logo", lg, lg.height))
+    # The product name is shown once: by the logo if there is one, otherwise as text.
+    head = sc.headline or (sb.branding.product_name if sc.role in ("hook", "intro", "cta") and logo is None else "")
     if head:
         blk = layout(head, weight="bold", max_width=max_w, max_lines=3,
                      max_size=int((100 if not lay.portrait else 92) * u), min_size=int(46 * u))
@@ -533,7 +564,8 @@ def headline_overlay(sc: Scene, sb: Storyboard, lay: Layout, theme: Theme, logo:
         lb = lay.logo
         s = min(lb.w / lg.width, lb.h / lg.height)
         lw, lh = max(1, int(lg.width * s)), max(1, int(lg.height * s))
-        lg = lg.resize((lw, lh), Image.LANCZOS)
+        lg = logo_for_theme(lg.resize((lw, lh), Image.LANCZOS), theme, lh)
+        lw, lh = lg.size
         if lay.portrait:
             ov.alpha_composite(lg, (int(lb.x + (lb.w - lw) / 2), int(lb.y + (lb.h - lh) / 2)))
         else:

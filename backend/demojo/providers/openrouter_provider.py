@@ -26,6 +26,7 @@ class OpenRouterProvider:
         self.story_model = settings.story_model
         self.tts_model = settings.tts_model
         self.tts_voice = settings.tts_voice
+        self.tts_format = settings.tts_format
 
     def analyze_image(self, ledger, asset: dict, messages: list[dict]) -> ImageAnalysis:
         return self.client.chat_json(
@@ -53,5 +54,5 @@ class OpenRouterProvider:
         )
 
     def synthesize(self, ledger, text: str) -> tuple[bytes, str, str | None]:
-        audio, gen_id = self.client.speech(ledger, text=text, model=self.tts_model, voice=self.tts_voice, fmt=self.s.tts_format)
-        return audio, self.s.tts_format, gen_id
+        audio, gen_id = self.client.speech(ledger, text=text, model=self.tts_model, voice=self.tts_voice, fmt=self.tts_format)
+        return audio, self.tts_format, gen_id

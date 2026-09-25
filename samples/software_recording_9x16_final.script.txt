@@ -1,0 +1,18 @@
+Tallyfox — narration script
+Aspect 9:16 · requested 30s · computed 22.0s
+
+Scene 1 [hook] 00.00s – 05.30s
+  On screen: Tallyfox is invoicing software for freelancers and small studios
+  Subline:   Freelancers and small creative studios
+  Narration: Tallyfox is invoicing software for freelancers and small studios.
+
+Scene 2 [step] 04.90s – 11.90s
+  On screen: Open the dashboard
+  Narration: Open the dashboard, click New invoice, fill in the client and line items.
+
+Scene 3 [step] 11.50s – 18.50s
+  On screen: Click Send invoice
+  Narration: Click Send invoice.
+
+Scene 4 [cta] 18.10s – 22.00s
+  Narration: Start free today. tallyfox.example.

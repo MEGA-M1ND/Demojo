@@ -41,7 +41,18 @@ def _clip_words(text: str, max_chars: int) -> str:
     return cut
 
 
-def _headline(text: str) -> str:
+def _clauses(text: str) -> list[str]:
+    """Split workflow notes into ordered steps (the user's own words)."""
+    out: list[str] = []
+    for sent in _sentences(text):
+        for part in re.split(r",\s*(?:and\s+|then\s+)?|;\s*|\s+then\s+", sent.rstrip(".!?")):
+            part = part.strip()
+            if part:
+                out.append(part)
+    return out
+
+
+def _headline(text: str, limit: int = 60) -> str:
     """First clause of a sentence, clipped at a word boundary, without trailing punctuation."""
     text = " ".join(text.split()).rstrip(".!?")
     for sep in (", ", " — ", "; ", ": "):
@@ -49,7 +60,7 @@ def _headline(text: str) -> str:
         if 12 <= len(head) < len(text):
             text = head
             break
-    return _clip_words(text, 60).rstrip(",;:")
+    return _clip_words(text, limit).rstrip(",;:")
 
 
 def _as_sentence(text: str) -> str:
@@ -65,6 +76,7 @@ class FixtureProvider:
     story_model = "fixture"
     tts_model = "espeak-ng"
     tts_voice = "en-us"
+    tts_format = "wav"
 
     def __init__(self, settings: Settings):
         self.s = settings
@@ -102,74 +114,89 @@ class FixtureProvider:
     # -- planning ---------------------------------------------------------
 
     def plan_story(self, ledger, ctx, messages: list[dict], check) -> PlannedStory:
+        """Template storyboard sized to the target duration using only the user's own sentences."""
         d = ctx.details
         points = [(p.strip(), f"selling_point_{i + 1}") for i, p in enumerate(d.selling_points) if p.strip()]
         desc = _sentences(d.description)
-        workflow = [(s, "workflow_notes") for s in _sentences(d.workflow_notes)]
+        clauses = _clauses(d.workflow_notes)
         filler = [(s, "description") for s in desc[1:]]
         target = float(d.target_duration_s)
-        budget = int(target * 2.4)
 
         def claim(text: str, ref: str) -> list[PlannedClaim]:
             return [PlannedClaim(text=_clip_words(text, 290), basis="user_detail", source_ref=ref)] if text else []
 
+        def need(text: str) -> float:  # seconds a line needs on screen (speech + breathing room)
+            return len(text.split()) / 2.6 + 0.3 + 0.8 if text else 0.0
+
+        def take(seconds: float, *pools: list[tuple[str, str]]) -> tuple[str, str]:
+            for pool in pools:
+                for i, (text, _ref) in enumerate(pool):
+                    if need(text) <= seconds:
+                        return pool.pop(i)
+            return "", ""
+
         hook_line = desc[0] if desc else d.product_name
+        hook_head = _headline(hook_line, 80) if desc else ""  # empty -> renderer shows the logo or product name
         cta_text = d.cta_text or f"Try {d.product_name}"
         cta_line = _as_sentence(_clip_words(f"{cta_text}. {d.website_text}".strip(" ."), 200))
-        budget -= len(hook_line.split()) + len(cta_line.split())
+        hook_s = max(3.0, need(hook_line))
+        cta_s = max(3.0, need(cta_line))
+        remaining = target - hook_s - cta_s
+
+        image_refs = [r for r in ctx.ordered_refs if ctx.assets_by_ref[r]["kind"] == "image"][:5]
+        video_ref = next((r for r in ctx.ordered_refs if ctx.assets_by_ref[r]["kind"] == "video"), None)
+        segments: list[dict] = []
+        if video_ref and ctx.video is not None:
+            for seg in ctx.video["segments_s"][:3]:
+                length = seg["end_s"] - seg["start_s"]
+                if segments and remaining - length < 4.0 * len(image_refs):
+                    break
+                segments.append(seg)
+                remaining -= length
+        per_image = max(2.5, min(8.0, remaining / len(image_refs))) if image_refs else 0.0
+
+        planned: dict[str, list[PlannedScene]] = {}
+        motions = ["gentle_push_in", "pan_right", "gentle_push_in", "pan_left"]
+        for seg in segments:
+            length = seg["end_s"] - seg["start_s"]
+            # Clips only get the user's own workflow steps (in order), never unrelated selling points.
+            text = ""
+            while clauses and need(_as_sentence(f"{text}, {clauses[0]}" if text else clauses[0])) <= length:
+                text = f"{text}, {clauses.pop(0)}" if text else clauses.pop(0)
+            text = _as_sentence(text[:1].upper() + text[1:]) if text else ""
+            src = "workflow_notes"
+            planned.setdefault(video_ref, []).append(PlannedScene(  # type: ignore[arg-type]
+                role="step", source="clip", asset_ref=video_ref, clip_start_s=seg["start_s"], clip_end_s=seg["end_s"],
+                duration_s=round(length, 2), headline=_headline(text), narration=_clip_words(text, 220),
+                selection_reason=f"Recording segment {seg['label']} (fixture split, in source order).",
+                claims=claim(text, src), focal_point=PlannedPoint(x=0.5, y=0.5), motion="static", transition_in="dissolve",
+            ))
+        role = "showcase" if d.product_type == "physical" else "feature"
+        for n, ref in enumerate(image_refs):
+            a = ctx.assets_by_ref[ref]
+            # Selling point i goes with image i (upload order); narrate it only if it fits the time.
+            text, src = points.pop(0) if points else take(per_image, filler)
+            spoken = text if need(text) <= per_image else ""
+            planned[ref] = [PlannedScene(
+                role=role, source="image", asset_ref=ref, duration_s=round(per_image, 2),
+                headline=_headline(text) or _clip_words(a["label"], 60), narration=_as_sentence(_clip_words(spoken, 220)),
+                selection_reason=f"User-provided {a['classification']} '{a['label']}' in upload order.",
+                claims=claim(spoken, src), focal_point=PlannedPoint(x=0.5, y=0.45),
+                motion=motions[n % len(motions)], transition_in="dissolve",
+            )]
+        body = [sc for ref in ctx.ordered_refs for sc in planned.get(ref, [])]
         hook = PlannedScene(
-            role="hook", source="title_card", asset_ref=None, duration_s=3.0,
-            headline=_clip_words(d.product_name, 60), subline=_clip_words(d.audience, 90),
+            role="hook", source="title_card", asset_ref=None, duration_s=round(hook_s, 2),
+            headline=_clip_words(hook_head, 80), subline=_clip_words(d.audience, 90),
             narration=_clip_words(hook_line, 220), selection_reason="Opening title card with the product name.",
             claims=claim(hook_line, "description"), focal_point=PlannedPoint(x=0.5, y=0.5),
             motion="gentle_push_in", transition_in="cut",
         )
-
-        def take(*pools: list[tuple[str, str]]) -> tuple[str, str]:
-            nonlocal budget
-            for pool in pools:
-                while pool:
-                    text, ref = pool.pop(0)
-                    if len(text.split()) <= budget:
-                        budget -= len(text.split())
-                        return text, ref
-            return "", ""
-
-        body: list[PlannedScene] = []
-        motions = ["gentle_push_in", "pan_right", "gentle_push_in", "pan_left"]
-        for ref in ctx.ordered_refs:
-            a = ctx.assets_by_ref[ref]
-            if ref.startswith("V") and ctx.video is not None:
-                for seg in ctx.video["segments_s"][:3]:
-                    text, src = take(workflow, filler, points)
-                    body.append(PlannedScene(
-                        role="step", source="clip", asset_ref=ref, clip_start_s=seg["start_s"], clip_end_s=seg["end_s"],
-                        duration_s=round(seg["end_s"] - seg["start_s"], 2), headline=_headline(text) or f"{a['label']}: {seg['label']}",
-                        narration=_as_sentence(_clip_words(text, 220)), selection_reason=f"Recording segment {seg['label']} (fixture split, in source order).",
-                        claims=claim(text, src), focal_point=PlannedPoint(x=0.5, y=0.5), motion="static", transition_in="dissolve",
-                    ))
-            elif a["kind"] == "image":
-                text, src = take(points, filler, workflow)
-                role = "showcase" if d.product_type == "physical" else "feature"
-                body.append(PlannedScene(
-                    role=role, source="image", asset_ref=ref, duration_s=4.0,
-                    headline=_headline(text) or _clip_words(a["label"], 60), narration=_as_sentence(_clip_words(text, 220)),
-                    selection_reason=f"User-provided {a['classification']} '{a['label']}' in upload order.",
-                    claims=claim(text, src), focal_point=PlannedPoint(x=0.5, y=0.45),
-                    motion=motions[len(body) % len(motions)], transition_in="dissolve",
-                ))
-        body = body[:6]
         cta = PlannedScene(
-            role="cta", source="title_card", asset_ref=None, duration_s=3.5, headline=_clip_words(d.product_name, 60),
+            role="cta", source="title_card", asset_ref=None, duration_s=round(cta_s, 2), headline="",
             subline="", narration=cta_line, selection_reason="Closing call to action.", claims=[],
             focal_point=PlannedPoint(x=0.5, y=0.5), motion="static", transition_in="dissolve",
         )
-        fixed = 3.0 + 3.5 + sum(s.duration_s for s in body if s.source == "clip")
-        images = [s for s in body if s.source == "image"]
-        if images:
-            each = max(2.5, min(8.0, (target - fixed) / len(images)))
-            for s in images:
-                s.duration_s = round(each, 2)
         return PlannedStory(title=f"{d.product_name} demo (fixture)", warnings=[FIXTURE_NOTE], scenes=[hook, *body, cta])
 
     def regenerate_scene(self, ledger, ctx, scene_index: int, messages: list[dict], check) -> PlannedSceneOnly:

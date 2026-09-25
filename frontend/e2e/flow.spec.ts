@@ -8,7 +8,10 @@ const FIX = path.resolve(HERE, '../../fixtures/software')
 const SHOTS = process.env.E2E_SCREENSHOTS
 
 async function shot(page: import('@playwright/test').Page, name: string) {
-  if (SHOTS) await page.screenshot({ path: path.join(SHOTS, `${name}.png`), fullPage: true })
+  if (!SHOTS) return
+  // Full-page captures render sticky headers mid-page; un-stick it for the screenshot only.
+  await page.addStyleTag({ content: '.topbar { position: static !important; }' })
+  await page.screenshot({ path: path.join(SHOTS, `${name}.png`), fullPage: true })
 }
 
 test('upload → describe → editable storyboard → playable export → download', async ({ page }) => {

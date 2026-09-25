@@ -1,0 +1,22 @@
+Aurel — narration script
+Aspect 16:9 · requested 30s · computed 28.5s
+
+Scene 1 [hook] 00.00s – 09.17s
+  On screen: Aurel is a 750 ml insulated steel bottle with a screw cap and a carry loop
+  Subline:   Commuters and hikers
+  Narration: Aurel is a 750 ml insulated steel bottle with a screw cap and a carry loop, in a deep sage finish.
+
+Scene 2 [showcase] 08.77s – 14.70s
+  On screen: 750 ml capacity
+  Narration: 750 ml capacity.
+
+Scene 3 [showcase] 14.30s – 20.23s
+  On screen: Screw cap with carry loop
+  Narration: Screw cap with carry loop.
+
+Scene 4 [showcase] 19.83s – 25.77s
+  On screen: Deep sage finish
+  Narration: Deep sage finish.
+
+Scene 5 [cta] 25.37s – 28.47s
+  Narration: Shop Aurel. aurel.example.

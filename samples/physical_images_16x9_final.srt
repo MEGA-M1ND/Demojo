@@ -1,0 +1,27 @@
+1
+00:00:00,267 --> 00:00:06,230
+Aurel is a 750 ml insulated steel bottle with a screw cap and a carry loop, in a
+
+2
+00:00:06,230 --> 00:00:07,497
+deep sage finish.
+
+3
+00:00:09,167 --> 00:00:11,837
+750 ml capacity.
+
+4
+00:00:14,700 --> 00:00:16,639
+Screw cap with carry loop.
+
+5
+00:00:20,233 --> 00:00:21,729
+Deep sage finish.
+
+6
+00:00:25,767 --> 00:00:26,736
+Shop Aurel.
+
+7
+00:00:26,736 --> 00:00:27,969
+aurel.example.

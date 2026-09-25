@@ -1,0 +1,38 @@
+# Reference local setup: one image, two processes (API/UI and worker) sharing a
+# persistent data volume. The UI is published on 127.0.0.1 only — this is a
+# single-user prototype without access control; do not expose it publicly.
+services:
+  api:
+    build: .
+    image: demojo:local
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      DATA_DIR: /data
+    volumes:
+      - demojo-data:/data
+    ports:
+      - "127.0.0.1:8000:8000"
+    command: ["demojo", "serve", "--host", "0.0.0.0", "--port", "8000"]
+    restart: unless-stopped
+
+  worker:
+    image: demojo:local
+    depends_on:
+      - api
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      DATA_DIR: /data
+    volumes:
+      - demojo-data:/data
+    command: ["demojo", "worker"]
+    restart: unless-stopped
+    stop_grace_period: 20s
+    healthcheck:
+      disable: true
+
+volumes:
+  demojo-data:

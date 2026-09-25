@@ -1,0 +1,19 @@
+1
+00:00:00,267 --> 00:00:04,801
+Tallyfox is invoicing software for freelancers and small studios.
+
+2
+00:00:05,300 --> 00:00:10,340
+Open the dashboard, click New invoice, fill in the client and line items.
+
+3
+00:00:11,900 --> 00:00:13,503
+Click Send invoice.
+
+4
+00:00:18,500 --> 00:00:20,002
+Start free today.
+
+5
+00:00:20,002 --> 00:00:21,505
+tallyfox.example.

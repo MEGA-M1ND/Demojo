@@ -1,0 +1,190 @@
+{
+  "schema_version": "demojo.storyboard/1",
+  "project_id": "prj_5652cec7dea7",
+  "revision": 1,
+  "output": {
+    "aspect_ratio": "16:9",
+    "fps": 30,
+    "target_duration_s": 30
+  },
+  "branding": {
+    "product_name": "Aurel",
+    "accent_color": "#2F5D50",
+    "logo_asset_id": "ast_716a8affb413",
+    "cta_text": "Shop Aurel",
+    "website_text": "aurel.example"
+  },
+  "style": "clean_launch",
+  "product_type": "physical",
+  "narration": {
+    "mode": "tts",
+    "model": "espeak-ng",
+    "voice": "en-us"
+  },
+  "scenes": [
+    {
+      "id": "scn_3m1zc4xl",
+      "role": "hook",
+      "source_kind": "title_card",
+      "asset_id": null,
+      "clip_in_s": null,
+      "clip_out_s": null,
+      "planned_duration_s": 9.18,
+      "headline": "Aurel is a 750 ml insulated steel bottle with a screw cap and a carry loop",
+      "subline": "Commuters and hikers",
+      "narration": "Aurel is a 750 ml insulated steel bottle with a screw cap and a carry loop, in a deep sage finish.",
+      "selection_reason": "Opening title card with the product name.",
+      "claims": [
+        {
+          "id": "clm_f380e0cb",
+          "text": "Aurel is a 750 ml insulated steel bottle with a screw cap and a carry loop, in a deep sage finish.",
+          "basis": "user_detail",
+          "source_ref": "description",
+          "status": "ok"
+        }
+      ],
+      "fit_mode": "contain",
+      "focus_region": null,
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "highlight": null,
+      "motion": "gentle_push_in",
+      "transition_in": "cut",
+      "origin": "fixture"
+    },
+    {
+      "id": "scn_dadvqh02",
+      "role": "showcase",
+      "source_kind": "image",
+      "asset_id": "ast_2710f2e58ac5",
+      "clip_in_s": null,
+      "clip_out_s": null,
+      "planned_duration_s": 5.94,
+      "headline": "750 ml capacity",
+      "subline": "",
+      "narration": "750 ml capacity.",
+      "selection_reason": "User-provided photo 'Aurel front' in upload order.",
+      "claims": [
+        {
+          "id": "clm_bbcf18f6",
+          "text": "750 ml capacity",
+          "basis": "user_detail",
+          "source_ref": "selling_point_1",
+          "status": "ok"
+        }
+      ],
+      "fit_mode": "contain",
+      "focus_region": null,
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.45
+      },
+      "highlight": null,
+      "motion": "gentle_push_in",
+      "transition_in": "dissolve",
+      "origin": "fixture"
+    },
+    {
+      "id": "scn_du74g6k4",
+      "role": "showcase",
+      "source_kind": "image",
+      "asset_id": "ast_008463208803",
+      "clip_in_s": null,
+      "clip_out_s": null,
+      "planned_duration_s": 5.94,
+      "headline": "Screw cap with carry loop",
+      "subline": "",
+      "narration": "Screw cap with carry loop.",
+      "selection_reason": "User-provided photo 'Aurel side' in upload order.",
+      "claims": [
+        {
+          "id": "clm_0d2ee58a",
+          "text": "Screw cap with carry loop",
+          "basis": "user_detail",
+          "source_ref": "selling_point_2",
+          "status": "ok"
+        }
+      ],
+      "fit_mode": "contain",
+      "focus_region": null,
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.45
+      },
+      "highlight": null,
+      "motion": "pan_right",
+      "transition_in": "dissolve",
+      "origin": "fixture"
+    },
+    {
+      "id": "scn_qeodrp2t",
+      "role": "showcase",
+      "source_kind": "image",
+      "asset_id": "ast_ac66be6dc946",
+      "clip_in_s": null,
+      "clip_out_s": null,
+      "planned_duration_s": 5.94,
+      "headline": "Deep sage finish",
+      "subline": "",
+      "narration": "Deep sage finish.",
+      "selection_reason": "User-provided photo 'Aurel top' in upload order.",
+      "claims": [
+        {
+          "id": "clm_5ffcce9d",
+          "text": "Deep sage finish",
+          "basis": "user_detail",
+          "source_ref": "selling_point_3",
+          "status": "ok"
+        }
+      ],
+      "fit_mode": "contain",
+      "focus_region": null,
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.45
+      },
+      "highlight": null,
+      "motion": "gentle_push_in",
+      "transition_in": "dissolve",
+      "origin": "fixture"
+    },
+    {
+      "id": "scn_x0slzze9",
+      "role": "cta",
+      "source_kind": "title_card",
+      "asset_id": null,
+      "clip_in_s": null,
+      "clip_out_s": null,
+      "planned_duration_s": 3.0,
+      "headline": "",
+      "subline": "",
+      "narration": "Shop Aurel. aurel.example.",
+      "selection_reason": "Closing call to action.",
+      "claims": [],
+      "fit_mode": "contain",
+      "focus_region": null,
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "highlight": null,
+      "motion": "static",
+      "transition_in": "dissolve",
+      "origin": "fixture"
+    }
+  ],
+  "warnings": [
+    "Fixture mode: deterministic template built from your own text — not AI-generated."
+  ],
+  "estimated_cost_usd": null,
+  "cost_is_estimate": false,
+  "generated_by": "fixture",
+  "generation_models": {
+    "vision": "fixture",
+    "story": "fixture",
+    "tts": "espeak-ng",
+    "voice": "en-us"
+  }
+}

@@ -47,7 +47,7 @@ def cached_speech(pid: str, sb: Storyboard, provider) -> dict[str, tuple[float, 
     out: dict[str, tuple[float, bool, str]] = {}
     if sb.narration.mode != "tts":
         return out
-    fmt = "wav" if provider.name == "fixture" else "mp3"
+    fmt = provider.tts_format
     for sc in sb.scenes:
         if not sc.narration.strip():
             continue
@@ -66,7 +66,7 @@ def synthesize_all(provider, ledger, pid: str, sb: Storyboard, *, progress: Call
     if sb.narration.mode != "tts":
         return speech, files, 0
     todo = [sc for sc in sb.scenes if sc.narration.strip()]
-    fmt = "wav" if provider.name == "fixture" else "mp3"
+    fmt = provider.tts_format
     out_dir = project_dir(pid) / "cache" / "tts"
     out_dir.mkdir(parents=True, exist_ok=True)
     new = 0

@@ -1,0 +1,27 @@
+1
+00:00:00,267 --> 00:00:04,801
+Tallyfox is invoicing software for freelancers and small studios.
+
+2
+00:00:05,300 --> 00:00:08,442
+See outstanding and overdue totals at a glance.
+
+3
+00:00:10,033 --> 00:00:12,845
+Create and send an invoice in one screen.
+
+4
+00:00:14,767 --> 00:00:16,684
+Revenue by client report.
+
+5
+00:00:19,500 --> 00:00:24,540
+Open the dashboard, click New invoice, fill in the client and line items.
+
+6
+00:00:26,100 --> 00:00:27,602
+Start free today.
+
+7
+00:00:27,602 --> 00:00:29,105
+tallyfox.example.

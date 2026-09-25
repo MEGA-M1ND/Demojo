@@ -1,0 +1,223 @@
+{
+  "schema_version": "demojo.storyboard/1",
+  "project_id": "prj_10e7c618d30c",
+  "revision": 1,
+  "output": {
+    "aspect_ratio": "16:9",
+    "fps": 30,
+    "target_duration_s": 30
+  },
+  "branding": {
+    "product_name": "Tallyfox",
+    "accent_color": "#EA580C",
+    "logo_asset_id": "ast_44f66192b641",
+    "cta_text": "Start free today",
+    "website_text": "tallyfox.example"
+  },
+  "style": "clean_launch",
+  "product_type": "software",
+  "narration": {
+    "mode": "tts",
+    "model": "espeak-ng",
+    "voice": "en-us"
+  },
+  "scenes": [
+    {
+      "id": "scn_badhdetw",
+      "role": "hook",
+      "source_kind": "title_card",
+      "asset_id": null,
+      "clip_in_s": null,
+      "clip_out_s": null,
+      "planned_duration_s": 4.56,
+      "headline": "Tallyfox is invoicing software for freelancers and small studios",
+      "subline": "Freelancers and small creative studios",
+      "narration": "Tallyfox is invoicing software for freelancers and small studios.",
+      "selection_reason": "Opening title card with the product name.",
+      "claims": [
+        {
+          "id": "clm_0f656d00",
+          "text": "Tallyfox is invoicing software for freelancers and small studios.",
+          "basis": "user_detail",
+          "source_ref": "description",
+          "status": "ok"
+        }
+      ],
+      "fit_mode": "contain",
+      "focus_region": null,
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "highlight": null,
+      "motion": "gentle_push_in",
+      "transition_in": "cut",
+      "origin": "fixture"
+    },
+    {
+      "id": "scn_w7uf5xa0",
+      "role": "feature",
+      "source_kind": "image",
+      "asset_id": "ast_4f5db049e422",
+      "clip_in_s": null,
+      "clip_out_s": null,
+      "planned_duration_s": 5.15,
+      "headline": "See outstanding and overdue totals at a glance",
+      "subline": "",
+      "narration": "See outstanding and overdue totals at a glance.",
+      "selection_reason": "User-provided screenshot 'Tallyfox dashboard' in upload order.",
+      "claims": [
+        {
+          "id": "clm_9a0014e5",
+          "text": "See outstanding and overdue totals at a glance",
+          "basis": "user_detail",
+          "source_ref": "selling_point_1",
+          "status": "ok"
+        }
+      ],
+      "fit_mode": "contain",
+      "focus_region": null,
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.45
+      },
+      "highlight": null,
+      "motion": "gentle_push_in",
+      "transition_in": "dissolve",
+      "origin": "fixture"
+    },
+    {
+      "id": "scn_vqk93178",
+      "role": "feature",
+      "source_kind": "image",
+      "asset_id": "ast_214e4632442b",
+      "clip_in_s": null,
+      "clip_out_s": null,
+      "planned_duration_s": 5.15,
+      "headline": "Create and send an invoice in one screen",
+      "subline": "",
+      "narration": "Create and send an invoice in one screen.",
+      "selection_reason": "User-provided screenshot 'Tallyfox new invoice' in upload order.",
+      "claims": [
+        {
+          "id": "clm_b9e800bf",
+          "text": "Create and send an invoice in one screen",
+          "basis": "user_detail",
+          "source_ref": "selling_point_2",
+          "status": "ok"
+        }
+      ],
+      "fit_mode": "contain",
+      "focus_region": null,
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.45
+      },
+      "highlight": null,
+      "motion": "pan_right",
+      "transition_in": "dissolve",
+      "origin": "fixture"
+    },
+    {
+      "id": "scn_msc98k2r",
+      "role": "feature",
+      "source_kind": "image",
+      "asset_id": "ast_e77b5157e86f",
+      "clip_in_s": null,
+      "clip_out_s": null,
+      "planned_duration_s": 5.15,
+      "headline": "Revenue by client report",
+      "subline": "",
+      "narration": "Revenue by client report.",
+      "selection_reason": "User-provided screenshot 'Tallyfox reports' in upload order.",
+      "claims": [
+        {
+          "id": "clm_e4a844c5",
+          "text": "Revenue by client report",
+          "basis": "user_detail",
+          "source_ref": "selling_point_3",
+          "status": "ok"
+        }
+      ],
+      "fit_mode": "contain",
+      "focus_region": null,
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.45
+      },
+      "highlight": null,
+      "motion": "gentle_push_in",
+      "transition_in": "dissolve",
+      "origin": "fixture"
+    },
+    {
+      "id": "scn_14dkxhf0",
+      "role": "step",
+      "source_kind": "clip",
+      "asset_id": "ast_aa5a87f66a04",
+      "clip_in_s": 0.0,
+      "clip_out_s": 7.0,
+      "planned_duration_s": 7.0,
+      "headline": "Open the dashboard",
+      "subline": "",
+      "narration": "Open the dashboard, click New invoice, fill in the client and line items.",
+      "selection_reason": "Recording segment Part 1 (fixture split, in source order).",
+      "claims": [
+        {
+          "id": "clm_6b60806f",
+          "text": "Open the dashboard, click New invoice, fill in the client and line items.",
+          "basis": "user_detail",
+          "source_ref": "workflow_notes",
+          "status": "ok"
+        }
+      ],
+      "fit_mode": "contain",
+      "focus_region": null,
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "highlight": null,
+      "motion": "static",
+      "transition_in": "dissolve",
+      "origin": "fixture"
+    },
+    {
+      "id": "scn_2it92hba",
+      "role": "cta",
+      "source_kind": "title_card",
+      "asset_id": null,
+      "clip_in_s": null,
+      "clip_out_s": null,
+      "planned_duration_s": 3.0,
+      "headline": "",
+      "subline": "",
+      "narration": "Start free today. tallyfox.example.",
+      "selection_reason": "Closing call to action.",
+      "claims": [],
+      "fit_mode": "contain",
+      "focus_region": null,
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "highlight": null,
+      "motion": "static",
+      "transition_in": "dissolve",
+      "origin": "fixture"
+    }
+  ],
+  "warnings": [
+    "Fixture mode: deterministic template built from your own text — not AI-generated.",
+    "The recording was analysed from 5 sampled frames, not watched in full. Check clip in/out points. Its original audio is muted; narration is newly generated."
+  ],
+  "estimated_cost_usd": null,
+  "cost_is_estimate": false,
+  "generated_by": "fixture",
+  "generation_models": {
+    "vision": "fixture",
+    "story": "fixture",
+    "tts": "espeak-ng",
+    "voice": "en-us"
+  }
+}

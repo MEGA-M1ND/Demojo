@@ -373,7 +373,8 @@ def add_asset(pid: str, tmp_path: Path, original_name: str, role: Literal["media
         shutil.rmtree(adir, ignore_errors=True)
         raise
 
-    label = Path(safe_name).stem[:60] or ("Recording" if kind == "video" else "Image")
+    stem = " ".join(Path(safe_name).stem.replace("_", " ").replace("-", " ").split())
+    label = (stem[:1].upper() + stem[1:])[:60] or ("Recording" if kind == "video" else "Image")
     with db.connect() as conn:
         with db.transaction(conn):
             _project_row(conn, pid)

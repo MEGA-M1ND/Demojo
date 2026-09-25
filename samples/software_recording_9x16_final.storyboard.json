@@ -1,0 +1,159 @@
+{
+  "schema_version": "demojo.storyboard/1",
+  "project_id": "prj_97641f1187ae",
+  "revision": 1,
+  "output": {
+    "aspect_ratio": "9:16",
+    "fps": 30,
+    "target_duration_s": 30
+  },
+  "branding": {
+    "product_name": "Tallyfox",
+    "accent_color": "#EA580C",
+    "logo_asset_id": "ast_8a5a4e83b808",
+    "cta_text": "Start free today",
+    "website_text": "tallyfox.example"
+  },
+  "style": "guided_walkthrough",
+  "product_type": "software",
+  "narration": {
+    "mode": "tts",
+    "model": "espeak-ng",
+    "voice": "en-us"
+  },
+  "scenes": [
+    {
+      "id": "scn_uyt4wzsn",
+      "role": "hook",
+      "source_kind": "title_card",
+      "asset_id": null,
+      "clip_in_s": null,
+      "clip_out_s": null,
+      "planned_duration_s": 4.56,
+      "headline": "Tallyfox is invoicing software for freelancers and small studios",
+      "subline": "Freelancers and small creative studios",
+      "narration": "Tallyfox is invoicing software for freelancers and small studios.",
+      "selection_reason": "Opening title card with the product name.",
+      "claims": [
+        {
+          "id": "clm_bdbe3860",
+          "text": "Tallyfox is invoicing software for freelancers and small studios.",
+          "basis": "user_detail",
+          "source_ref": "description",
+          "status": "ok"
+        }
+      ],
+      "fit_mode": "contain",
+      "focus_region": null,
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "highlight": null,
+      "motion": "gentle_push_in",
+      "transition_in": "cut",
+      "origin": "fixture"
+    },
+    {
+      "id": "scn_vqfldd08",
+      "role": "step",
+      "source_kind": "clip",
+      "asset_id": "ast_47683098a9c7",
+      "clip_in_s": 0.0,
+      "clip_out_s": 7.0,
+      "planned_duration_s": 7.0,
+      "headline": "Open the dashboard",
+      "subline": "",
+      "narration": "Open the dashboard, click New invoice, fill in the client and line items.",
+      "selection_reason": "Recording segment Part 1 (fixture split, in source order).",
+      "claims": [
+        {
+          "id": "clm_f61b0116",
+          "text": "Open the dashboard, click New invoice, fill in the client and line items.",
+          "basis": "user_detail",
+          "source_ref": "workflow_notes",
+          "status": "ok"
+        }
+      ],
+      "fit_mode": "contain",
+      "focus_region": null,
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "highlight": null,
+      "motion": "static",
+      "transition_in": "dissolve",
+      "origin": "fixture"
+    },
+    {
+      "id": "scn_8nvk03vw",
+      "role": "step",
+      "source_kind": "clip",
+      "asset_id": "ast_47683098a9c7",
+      "clip_in_s": 7.0,
+      "clip_out_s": 14.0,
+      "planned_duration_s": 7.0,
+      "headline": "Click Send invoice",
+      "subline": "",
+      "narration": "Click Send invoice.",
+      "selection_reason": "Recording segment Part 2 (fixture split, in source order).",
+      "claims": [
+        {
+          "id": "clm_9988e29c",
+          "text": "Click Send invoice.",
+          "basis": "user_detail",
+          "source_ref": "workflow_notes",
+          "status": "ok"
+        }
+      ],
+      "fit_mode": "contain",
+      "focus_region": null,
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "highlight": null,
+      "motion": "static",
+      "transition_in": "dissolve",
+      "origin": "fixture"
+    },
+    {
+      "id": "scn_yfg54844",
+      "role": "cta",
+      "source_kind": "title_card",
+      "asset_id": null,
+      "clip_in_s": null,
+      "clip_out_s": null,
+      "planned_duration_s": 3.0,
+      "headline": "",
+      "subline": "",
+      "narration": "Start free today. tallyfox.example.",
+      "selection_reason": "Closing call to action.",
+      "claims": [],
+      "fit_mode": "contain",
+      "focus_region": null,
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "highlight": null,
+      "motion": "static",
+      "transition_in": "dissolve",
+      "origin": "fixture"
+    }
+  ],
+  "warnings": [
+    "Fixture mode: deterministic template built from your own text — not AI-generated.",
+    "The recording was analysed from 5 sampled frames, not watched in full. Check clip in/out points. Its original audio is muted; narration is newly generated."
+  ],
+  "estimated_cost_usd": null,
+  "cost_is_estimate": false,
+  "generated_by": "fixture",
+  "generation_models": {
+    "vision": "fixture",
+    "story": "fixture",
+    "tts": "espeak-ng",
+    "voice": "en-us"
+  }
+}

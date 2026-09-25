@@ -184,7 +184,8 @@ def _live_checks(s) -> int:
                 res = client.chat_json(ledger, purpose="analyze_image", model=s.vision_model, messages=[
                     {"role": "user", "content": [{"type": "text", "text": "Analyse this screenshot. Return JSON per schema."},
                                                  {"type": "image_url", "image_url": {"url": data_url(img)}}]}],
-                    schema_name="image_analysis", schema=IMAGE_ANALYSIS_SCHEMA, result_model=ImageAnalysis, max_tokens=800)
+                    schema_name="image_analysis", schema=IMAGE_ANALYSIS_SCHEMA, result_model=ImageAnalysis, max_tokens=800,
+                    images=1)
                 _ok(f"vision + structured output: kind={res.kind}; summary={res.summary[:80]!r}")
             except AppError as e:
                 _fail(f"vision call: {e.code}: {e.message}")

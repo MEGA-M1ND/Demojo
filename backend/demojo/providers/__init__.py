@@ -18,6 +18,7 @@ class Provider(Protocol):
     story_model: str
     tts_model: str
     tts_voice: str
+    tts_format: str
 
     def analyze_image(self, ledger, asset: dict, messages: list[dict]): ...
     def analyze_video(self, ledger, asset: dict, frames: list[dict], messages: list[dict], check): ...

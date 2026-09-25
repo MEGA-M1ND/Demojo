@@ -346,7 +346,8 @@ SOFTWARE_BRIEF = {
     "product_name": "Tallyfox",
     "description": "Tallyfox is invoicing software for freelancers and small studios. You can create an invoice, add line items, and send it to a client from one screen, and the dashboard shows outstanding, paid, and overdue totals.",
     "audience": "Freelancers and small creative studios",
-    "selling_points": ["Create and send an invoice in one screen", "See outstanding and overdue totals at a glance", "Revenue by client report"],
+    # Ordered to match the screenshots (dashboard, invoice editor, reports).
+    "selling_points": ["See outstanding and overdue totals at a glance", "Create and send an invoice in one screen", "Revenue by client report"],
     "cta_text": "Start free today",
     "website_text": "tallyfox.example",
     "product_type": "software",

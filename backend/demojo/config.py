@@ -90,7 +90,10 @@ class Settings:
 def get_settings() -> Settings:
     root = Path(__file__).resolve().parents[2]
     _load_dotenv(Path(os.environ.get("DEMOJO_ENV_FILE", root / ".env")))
-    data_dir = Path(os.environ.get("DATA_DIR", root / "data")).resolve()
+    data_dir = Path(os.environ.get("DATA_DIR") or "data")
+    if not data_dir.is_absolute():
+        data_dir = root / data_dir  # relative paths are relative to the repository root
+    data_dir = data_dir.resolve()
     mode = os.environ.get("DEMOJO_PROVIDER_MODE", "openrouter").strip().lower()
     if mode not in {"openrouter", "fixture"}:
         mode = "openrouter"
