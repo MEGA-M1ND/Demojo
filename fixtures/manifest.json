@@ -1,0 +1,50 @@
+{
+  "software": {
+    "brief": {
+      "product_name": "Tallyfox",
+      "description": "Tallyfox is invoicing software for freelancers and small studios. You can create an invoice, add line items, and send it to a client from one screen, and the dashboard shows outstanding, paid, and overdue totals.",
+      "audience": "Freelancers and small creative studios",
+      "selling_points": [
+        "Create and send an invoice in one screen",
+        "See outstanding and overdue totals at a glance",
+        "Revenue by client report"
+      ],
+      "cta_text": "Start free today",
+      "website_text": "tallyfox.example",
+      "product_type": "software",
+      "workflow_notes": "Open the dashboard, click New invoice, fill in the client and line items, then click Send invoice.",
+      "accent_color": "#EA580C"
+    },
+    "images": [
+      "software/tallyfox_dashboard.png",
+      "software/tallyfox_new_invoice.png",
+      "software/tallyfox_reports.png"
+    ],
+    "recording": "software/tallyfox_recording.mp4",
+    "logo": "software/tallyfox_logo.png"
+  },
+  "physical": {
+    "brief": {
+      "product_name": "Aurel",
+      "description": "Aurel is a 750 ml insulated steel bottle with a screw cap and a carry loop, in a deep sage finish.",
+      "audience": "Commuters and hikers",
+      "selling_points": [
+        "750 ml capacity",
+        "Screw cap with carry loop",
+        "Deep sage finish"
+      ],
+      "cta_text": "Shop Aurel",
+      "website_text": "aurel.example",
+      "product_type": "physical",
+      "workflow_notes": "",
+      "accent_color": "#2F5D50"
+    },
+    "images": [
+      "physical/aurel_front.jpg",
+      "physical/aurel_side.jpg",
+      "physical/aurel_top.jpg"
+    ],
+    "recording": null,
+    "logo": "physical/aurel_logo.png"
+  }
+}

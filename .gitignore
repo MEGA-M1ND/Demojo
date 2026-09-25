@@ -1,0 +1,15 @@
+# Local data, secrets, build output
+.env
+data/
+data-*/
+*.sqlite3*
+backend/.venv/
+backend/.pytest_cache/
+backend/.ruff_cache/
+__pycache__/
+*.pyc
+frontend/node_modules/
+frontend/dist/
+frontend/test-results/
+frontend/playwright-report/
+.DS_Store
