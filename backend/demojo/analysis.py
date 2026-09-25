@@ -75,8 +75,9 @@ def video_check(n_frames: int) -> Callable[[VideoAnalysis], list[str]]:
                 errs.append(f"segments[{i}] frame indices must be between 0 and {n_frames - 1}")
             if s.end_frame_index < s.start_frame_index:
                 errs.append(f"segments[{i}] end_frame_index must be >= start_frame_index")
-            if s.start_frame_index <= last_end:
-                errs.append(f"segments[{i}] overlaps or is out of order with the previous segment")
+            # Sharing a boundary frame with the previous step is fine; going backwards is not.
+            if s.start_frame_index < last_end:
+                errs.append(f"segments[{i}] starts before the previous segment ends (segments must be in order)")
             last_end = max(last_end, s.end_frame_index)
         for f in obj.frames:
             if not 0 <= f.frame_index < n_frames:
@@ -90,17 +91,20 @@ def segments_to_seconds(analysis: dict, frames: list[dict], duration: float) -> 
     """Map frame-index segments back to source timestamps (the model never outputs times)."""
     ts = [f["t"] for f in frames]
     out = []
+    prev_end = 0.0
     for s in analysis.get("segments", []):
         a, b = s["start_frame_index"], s["end_frame_index"]
         if not (0 <= a < len(ts) and 0 <= b < len(ts)):
             continue
         start = ts[a] if a > 0 else 0.0
+        start = max(start, prev_end)  # steps that share a boundary frame never overlap in time
         end = ts[b + 1] if b + 1 < len(ts) else duration
         end = min(end, duration)
         if end - start < 0.5:
             end = min(duration, start + 0.5)
         if end - start >= 0.5:
             out.append({"start_s": round(start, 3), "end_s": round(end, 3), "label": s["label"], "description": s["description"]})
+            prev_end = end
     if not out:
         out.append({"start_s": 0.0, "end_s": round(duration, 3), "label": "Full recording", "description": ""})
     return out

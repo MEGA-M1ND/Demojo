@@ -291,7 +291,7 @@ def run_smoke_case(case: str, aspect: str, quality: str, fixtures: Path, out_dir
 def cmd_smoke(args: argparse.Namespace) -> int:
     data = Path(args.data or tempfile.mkdtemp(prefix="demojo-smoke-")).resolve()
     os.environ["DATA_DIR"] = str(data)
-    os.environ["DEMOJO_PROVIDER_MODE"] = "fixture"
+    os.environ["DEMOJO_PROVIDER_MODE"] = "openrouter" if args.live else "fixture"
     from .config import reset_settings_cache
 
     reset_settings_cache()
@@ -311,7 +311,13 @@ def cmd_smoke(args: argparse.Namespace) -> int:
             r = run_smoke_case(c, a, args.quality, fixtures, Path(args.out).resolve())
             print(json.dumps(r))
             results.append(r)
-    print(f"Smoke test OK: {len(results)} render(s). FIXTURE MODE — template storyboards and espeak-ng narration, not AI output.")
+    if args.live:
+        from .costs import project_costs
+
+        spent = sum(project_costs(r["project_id"])["reported_usd"] for r in results)
+        print(f"Smoke test OK: {len(results)} render(s). LIVE OpenRouter mode; reported AI cost ${spent:.4f}.")
+    else:
+        print(f"Smoke test OK: {len(results)} render(s). FIXTURE MODE — template storyboards and espeak-ng narration, not AI output.")
     return 0
 
 
@@ -350,6 +356,7 @@ def main(argv: list[str] | None = None) -> int:
     s.add_argument("--fixtures", default=str(ROOT / "fixtures"))
     s.add_argument("--out", default=str(ROOT / "samples"))
     s.add_argument("--data", default=None, help="data dir for the smoke run (default: a temp dir)")
+    s.add_argument("--live", action="store_true", help="use real OpenRouter calls (costs a few cents; needs OPENROUTER_API_KEY)")
     s.set_defaults(fn=cmd_smoke)
     sv = sub.add_parser("serve", help="run the API + UI server")
     sv.add_argument("--host", default="127.0.0.1")

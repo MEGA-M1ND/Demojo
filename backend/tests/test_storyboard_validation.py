@@ -205,3 +205,17 @@ def test_save_rejects_foreign_asset_and_stale_revision(make_project):
         save_storyboard(a["id"], stale, base_revision=1)
     assert e.value.code == "stale_revision"
     assert get_storyboard(a["id"]).scenes[0].headline == "v2"
+
+
+def test_recording_segments_may_share_a_boundary_frame_but_not_overlap_in_time():
+    from demojo.ai_schemas import Segment, VideoAnalysis
+    from demojo.analysis import segments_to_seconds, video_check
+
+    frames = [{"index": i, "t": t} for i, t in enumerate([0.5, 3.0, 6.0, 9.0, 12.0])]
+    seg = lambda a, b: Segment(start_frame_index=a, end_frame_index=b, label="s", description="d")  # noqa: E731
+    touching = VideoAnalysis(summary="", frames=[], segments=[seg(0, 2), seg(2, 4)], uncertainty="")
+    assert video_check(5)(touching) == []
+    backwards = VideoAnalysis(summary="", frames=[], segments=[seg(0, 3), seg(1, 4)], uncertainty="")
+    assert video_check(5)(backwards)
+    spans = segments_to_seconds(touching.model_dump(), frames, 14.0)
+    assert spans[0]["end_s"] <= spans[1]["start_s"]

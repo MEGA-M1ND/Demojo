@@ -9,15 +9,24 @@ Build date: 25 September 2026. The environment was a Linux container with ffmpeg
 | Renderer, timeline, captions, exports | **Implemented and tested.** Real MP4s were rendered and validated with ffprobe and a full decode pass. |
 | Uploads, probing, persistence, worker jobs, cancel/interrupt/retry | **Implemented and tested** (pytest). |
 | UI flow: upload → describe → review/edit → export → download | **Implemented and browser-tested** in fixture mode (Playwright). |
-| OpenRouter vision, planning, scene regeneration, TTS, costs | **Implemented and tested against a mocked HTTP transport.** **Not verified live:** the build environment's key returned `401 API key expired`. |
+| OpenRouter vision, planning, TTS, costs | **Verified live** (two full end-to-end projects, about $0.013 each), plus mocked-transport tests for every error path. Scene regeneration has only been tested with mocks. See [MODELS.md](MODELS.md#live-integration-status). |
 | Docker Compose | **Written.** `docker compose config` validates. The frontend build stage built successfully. The runtime stage could not be built here: Debian package mirrors are blocked by this sandbox's egress policy and Docker Hub rate-limited anonymous pulls. |
 | Optional "Animate product photo" | **Deferred** (hidden; extension point documented). |
 
-Nothing here was produced by a live AI call. The storyboards and narration in `samples/` come from **fixture mode**: deterministic templates built from the fixture brief, and the local espeak-ng voice.
+The committed `samples/` come from **fixture mode**: deterministic templates built from the fixture brief, and the local espeak-ng voice.
+
+## CI/CD
+
+GitHub Actions (`.github/workflows/ci.yml`) runs on every push and pull request:
+- backend lint and the full pytest suite, including real renders
+- frontend type-check, build and lint, plus the Playwright browser test
+- a Docker image build and a smoke render inside that image
+
+Pushes to `main` publish the image to `ghcr.io/<owner>/demojo`. CI never makes paid AI calls: it uses fixture mode and a mocked OpenRouter.
 
 ## Automated tests
 
-Run `cd backend && uv run pytest -q`. **Result: 73 passed** (about 5 minutes; most of that is real renders).
+Run `cd backend && uv run pytest -q`. **Result: 74 passed** (about 5 minutes; most of that is real renders).
 
 | Requirement | Tests |
 |---|---|
@@ -88,10 +97,7 @@ Each has a matching `.storyboard.json`, `.srt`, and `.script.txt`.
 
 ## Known limitations
 
-- **Live OpenRouter behaviour is unverified** (expired key). In particular:
-  - Gemini's handling of the strict schema's nullable object fields; local validation and one repair cover mismatches.
-  - Kokoro voice quality and pronunciation of product names and URLs.
-  - Whether the TTS generation cost is available immediately; if not, it is recorded as an estimate.
+- **Live OpenRouter behaviour has been checked on two fixture projects only.** Kokoro voice quality and its pronunciation of product names and URLs haven't been judged by ear.
 - **English only.** The bundled fonts cover Latin, Greek, and Cyrillic; emoji and CJK are rejected with a message.
 - **No narration speed control.** The TTS model lists no `speed` support.
 - **Recordings:** the original audio is always muted, with no transcription. Analysis sees at most 24 sampled frames, so clip boundaries are suggestions for the user to correct.
@@ -102,6 +108,6 @@ Each has a matching `.storyboard.json`, `.srt`, and `.script.txt`.
 
 ## Three most useful next improvements
 
-1. **Verify and tune against live OpenRouter** with a valid key: run `demojo diagnose --live`, then two or three real projects. Tune the planning prompt on real screenshots, confirm schema compatibility and costs, and listen to and choose voices.
+1. **Tune on real customer projects.** Run the planning prompt on real screenshots and recordings, then listen to the narration and pick the best voice.
 2. **Recording clean-up assistance.** Detect idle and pause stretches in recordings from frame differences (never adding fake motion) and suggest trims for the user to approve. Optionally transcribe the recording's own voice-over into the script notes, marked as a transcript.
 3. **Faster, richer preview.** An in-browser scene preview (still frame plus camera path) so reviewers see framing changes without rendering, and parallel scene rendering to cut the full export time.

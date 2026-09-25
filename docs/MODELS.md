@@ -66,16 +66,19 @@ Actual charges should be lower. These are app estimates, not provider quotes.
 
 ## Live integration status
 
-**Not verified against OpenRouter in this build session.** The `OPENROUTER_API_KEY` in the build environment was rejected by OpenRouter with `401 API key expired`. `demojo diagnose` classifies this correctly as `invalid_key`.
+**Verified against OpenRouter on 25 September 2026** with a rate-limited key supplied by the owner. The key lives only in the server's gitignored `.env`.
 
-Verified without a working key:
-- The public catalog: model IDs, capabilities, voices, pricing.
-- The request and response handling, error classification, repair loop, ambiguous-timeout handling, and budget and pricing guards. These are tested against a mocked HTTP transport in `backend/tests/test_openrouter.py`.
+| Check | Result |
+|---|---|
+| `demojo diagnose --live` | Key accepted. One vision call with strict structured output returned valid JSON (`kind=software_screenshot`), and one `hexgrad/kokoro-82m` / `af_heart` / `mp3` call returned 2.09 s of decodable audio. Reported cost: $0.0010. |
+| Live end-to-end: mixed 16:9 draft (3 screenshots + recording) | Analysis, planning, narration and render all succeeded. Reported cost: **$0.0134**. The story was grounded: every claim traced to the brief, with no numbers or testimonials added. It ran 38.0 s against the 30 s target, so the planner's word-budget check was tightened. |
+| Live end-to-end: mixed 9:16 draft | Succeeded. Reported cost: **$0.0137**, runtime 30.5 s against 30 s. The planner set a portrait crop on the dashboard and a highlight on the KPI cards. |
 
-Still untested live:
-1. A real image-analysis call with structured output. This includes how Gemini handles the strict schema's nullable object fields, which are validated locally and repaired if needed.
-2. A real storyboard-planning call and a real scene-regeneration call.
-3. A real `/audio/speech` call with `hexgrad/kokoro-82m` / `af_heart` / `mp3`, including whether `X-Generation-Id` cost lookup returns a value immediately.
-4. Real `usage.cost` values and the resulting cost display.
+Issues found live and fixed:
+1. **Touching segments rejected.** Gemini returns recording segments that share a boundary frame, which the validator rejected even after the repair step. Touching segments are now accepted, and the mapped timestamps are trimmed so clips never overlap.
+2. **Very thin crops.** The planner sometimes chose a crop strip about 7:1 wide, which floated in an empty frame. The renderer now widens over-thin crops symmetrically, within the image.
+3. **Narration too long.** Narration could run up to 1.35× the word budget, so the planner check now allows at most 1.15×.
 
-To verify once a valid key is in `.env`, run `cd backend && uv run demojo diagnose --live`. It makes one small vision call and one short TTS call, costing a fraction of a cent, and reports the results.
+A real project costs about $0.013–0.014 per story plus narration, well under the conservative $0.13 upper-bound estimate.
+
+Not yet exercised live: scene regeneration (same code path as planning, tested with mocks); physical-product and recording-only cases at 1080p; and listening to the audio by ear (it was only checked programmatically).

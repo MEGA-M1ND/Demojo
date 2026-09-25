@@ -11,8 +11,7 @@ Demojo is a local prototype for validating the idea with real customers:
 
 The core export needs no generative-video API. The motion comes from your actual assets (restrained camera moves, highlights, title cards, and real recording segments), and the only paid AI provider is OpenRouter.
 
-> **Status (25 Sep 2026):** Implemented and tested end to end with fixtures (73 backend tests plus a browser test).
-> **Not yet verified against live OpenRouter:** the key available while building was rejected by OpenRouter as expired.
+> **Status (25 Sep 2026):** Working end to end, verified live against OpenRouter (a real project costs about $0.013), with 74 backend tests, a browser test, and CI/CD on GitHub Actions.
 > See [docs/VERIFICATION.md](docs/VERIFICATION.md) and [docs/MODELS.md](docs/MODELS.md).
 
 ## Quick start (Docker Compose, reference setup)
@@ -69,6 +68,7 @@ cd backend
 uv run demojo fixtures                                   # regenerate ../fixtures deterministically
 uv run demojo smoke --case all --aspect both             # offline end-to-end renders (fixture mode) into ../samples
 uv run demojo smoke --case mixed --aspect 9:16 --quality final
+uv run demojo smoke --live --case mixed --aspect 16:9     # real OpenRouter calls (~$0.015)
 ```
 
 `samples/` contains four 1080p renders from the smoke test, each with its storyboard, script, and captions:
@@ -82,7 +82,7 @@ uv run demojo smoke --case mixed --aspect 9:16 --quality final
 ## Tests
 
 ```bash
-cd backend && uv run pytest -q                      # 73 tests; renders real video (~5 min)
+cd backend && uv run pytest -q                      # 74 tests; renders real video (~5 min)
 uv run pytest -q -m "not render"                    # fast subset
 cd ../frontend && npm run build && npm run e2e      # browser test: upload → storyboard edit → export → download
 ```

@@ -264,7 +264,7 @@ def story_check(ctx: PlanContext):
         for i, ps in enumerate(story.scenes):
             errs += scene_errors(ps, ctx, i)
         words = sum(len(s.narration.split()) for s in story.scenes)
-        if ctx.details.narration and words > ctx.word_budget * 1.35:
+        if ctx.details.narration and words > ctx.word_budget * 1.15:
             errs.append(f"total narration is {words} words; keep it under {ctx.word_budget}")
         starts = [ps.clip_start_s for ps in story.scenes if ps.source == "clip" and ps.clip_start_s is not None]
         if starts != sorted(starts):
