@@ -10,7 +10,7 @@ Build date: 25 September 2026. The environment was a Linux container with ffmpeg
 | Uploads, probing, persistence, worker jobs, cancel/interrupt/retry | **Implemented and tested** (pytest). |
 | UI flow: upload → describe → review/edit → export → download | **Implemented and browser-tested** in fixture mode (Playwright). |
 | OpenRouter vision, planning, TTS, costs | **Verified live** (two full end-to-end projects, about $0.013 each), plus mocked-transport tests for every error path. Scene regeneration has only been tested with mocks. See [MODELS.md](MODELS.md#live-integration-status). |
-| Docker Compose | **Written.** `docker compose config` validates. The frontend build stage built successfully. The runtime stage could not be built here: Debian package mirrors are blocked by this sandbox's egress policy and Docker Hub rate-limited anonymous pulls. |
+| Docker image | **Built and smoke-tested in GitHub Actions**: the image renders a real video in fixture mode, and pushes to `main` publish it to `ghcr.io/mega-m1nd/demojo`. It couldn't be built inside the development sandbox because the egress policy blocks Debian mirrors. |
 | Optional "Animate product photo" | **Deferred** (hidden; extension point documented). |
 
 The committed `samples/` come from **fixture mode**: deterministic templates built from the fixture brief, and the local espeak-ng voice.
@@ -104,7 +104,6 @@ Each has a matching `.storyboard.json`, `.srt`, and `.script.txt`.
 - **Storyboard size:** at most 8 scenes and about 90 s of planned runtime.
 - **Render speed:** CPU rendering takes roughly 45–65 s for a 30 s 1080p video on 4 cores here. Draft 720p takes about 15–20 s.
 - **Deployment:** single user, no authentication, SQLite. Not for public deployment.
-- **Docker:** the runtime image stage has not been built in this environment (see above).
 
 ## Three most useful next improvements
 
