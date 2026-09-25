@@ -86,7 +86,7 @@ textarea.needs { border-color: #f59e0b; background: #fffdf5; }
 .toggle { display: inline-flex; align-items: center; gap: 8px; font-weight: 550; }
 .pill { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 999px; background: #f4f4f5; color: var(--ink-2); text-transform: capitalize; }
 .pill-edited { background: var(--accent-soft); color: var(--accent); }
-.pill-warn { background: var(--warn-soft); color: var(--warn); }
+.pill-warn { background: var(--warn-soft); color: var(--warn); text-transform: none; }
 .basis-inferred { background: var(--warn-soft); color: var(--warn); text-transform: none; }
 .basis-user_detail, .basis-visible_asset { text-transform: none; }
 

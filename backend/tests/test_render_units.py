@@ -35,11 +35,12 @@ def test_contain_never_stretches_and_focus_region_crops():
     x, y, w, h = fit_contain(1600, 1000, box)
     assert abs(w / h - 1.6) < 0.01 and w <= 1000 and h <= 500
     sc = Scene(role="feature", source_kind="image", asset_id="a", planned_duration_s=3, focus_region=NormRect(x=0.1, y=0.2, w=0.5, h=0.3))
-    assert source_region(sc, 1600, 1000, box) == (0.1, 0.2, 0.5, 0.3)
+    x, y, w, h = source_region(sc, 1600, 1000, box)
+    assert x < 0.1 and y < 0.2 and x + w > 0.6 and y + h > 0.5  # focus region plus a safety margin
     strip = Scene(role="feature", source_kind="image", asset_id="a", planned_duration_s=3,
                   focus_region=NormRect(x=0.18, y=0.22, w=0.77, h=0.1))
     x, y, w, h = source_region(strip, 1600, 1000, box)
-    assert (w * 1600) / (h * 1000) <= 2 * 1.6 + 1e-6 and y <= 0.22 and y + h >= 0.32  # widened around the strip
+    assert (w * 1600) / (h * 1000) <= 2 * 1.3 + 1e-6 and y <= 0.22 and y + h >= 0.32  # widened around the strip
 
 
 def test_camera_window_stays_inside_the_frame():

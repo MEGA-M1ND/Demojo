@@ -9,7 +9,7 @@ Build date: 25 September 2026. The environment was a Linux container with ffmpeg
 | Renderer, timeline, captions, exports | **Implemented and tested.** Real MP4s were rendered and validated with ffprobe and a full decode pass. |
 | Uploads, probing, persistence, worker jobs, cancel/interrupt/retry | **Implemented and tested** (pytest). |
 | UI flow: upload → describe → review/edit → export → download | **Implemented and browser-tested** in fixture mode (Playwright). |
-| OpenRouter vision, planning, TTS, costs | **Verified live** (two full end-to-end projects, about $0.013 each), plus mocked-transport tests for every error path. Scene regeneration has only been tested with mocks. See [MODELS.md](MODELS.md#live-integration-status). |
+| OpenRouter vision, planning, scene regeneration, TTS, costs | **Verified live:** 5 end-to-end projects (images-only, recording-only, and mixed in both aspect ratios), scene regenerate and accept, and a full UI walkthrough, each $0.006–0.017. There are also mocked-transport tests for every error path. See [MODELS.md](MODELS.md#live-integration-status) and [demo/](demo/). |
 | Docker image | **Built and smoke-tested in GitHub Actions**: the image renders a real video in fixture mode, and pushes to `main` publish it to `ghcr.io/mega-m1nd/demojo`. It couldn't be built inside the development sandbox because the egress policy blocks Debian mirrors. |
 | Optional "Animate product photo" | **Deferred** (hidden; extension point documented). |
 
@@ -26,7 +26,7 @@ Pushes to `main` publish the image to `ghcr.io/<owner>/demojo`. CI never makes p
 
 ## Automated tests
 
-Run `cd backend && uv run pytest -q`. **Result: 74 passed** (about 5 minutes; most of that is real renders).
+Run `cd backend && uv run pytest -q`. **Result: 75 passed** (about 5 minutes; most of that is real renders).
 
 | Requirement | Tests |
 |---|---|
@@ -76,6 +76,7 @@ I extracted and looked at frames at 0.6 s, 20 %, 40 %, 60 %, 80 %, and end−0.8
   3. Portrait layout left a large gap: headline and card are now centred as a group.
   4. The product name repeated under a wordmark logo on title cards.
   5. A light logo was nearly invisible on the light theme: a contrast backing is added automatically.
+  7. **Found in live AI output:** AI-chosen crops sliced through UI text at their edges. Crops now get a 3.5 % safety margin, and thin crops are widened.
   6. Fixture template mismatches: clip scenes used unrelated selling points, and still scenes had no narration. Clips now use the user's workflow steps in order, and selling point *i* goes with image *i*.
 - **Audio:** I could not listen to the narration in this environment. Instead I checked it programmatically:
   - The AAC track exists and covers the last speech frame.

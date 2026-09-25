@@ -219,3 +219,13 @@ def test_recording_segments_may_share_a_boundary_frame_but_not_overlap_in_time()
     assert video_check(5)(backwards)
     spans = segments_to_seconds(touching.model_dump(), frames, 14.0)
     assert spans[0]["end_s"] <= spans[1]["start_s"]
+
+
+def test_outcome_and_offer_claims_need_a_source(make_project):
+    from demojo.planner import planned_to_scene
+
+    ctx = _ctx(make_project)
+    sc = planned_to_scene(_planned(headline="Send with confidence", subline="Get paid faster.",
+                                   narration="Start your free trial today."), ctx, "openrouter")
+    flagged = {c.text for c in sc.claims if c.status == "needs_confirmation"}
+    assert "Get paid faster." in flagged and "Start your free trial today." in flagged

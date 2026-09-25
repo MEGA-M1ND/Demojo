@@ -1,0 +1,232 @@
+{
+  "schema_version": "demojo.storyboard/1",
+  "project_id": "prj_7d61331d9c2b",
+  "revision": 2,
+  "output": {
+    "aspect_ratio": "16:9",
+    "fps": 30,
+    "target_duration_s": 30
+  },
+  "branding": {
+    "product_name": "Tallyfox",
+    "accent_color": "#EA580C",
+    "logo_asset_id": "ast_e0241ef401a1",
+    "cta_text": "Start free today",
+    "website_text": "tallyfox.example"
+  },
+  "style": "clean_launch",
+  "product_type": "software",
+  "narration": {
+    "mode": "tts",
+    "model": "hexgrad/kokoro-82m",
+    "voice": "af_heart"
+  },
+  "scenes": [
+    {
+      "id": "scn_13jrr4wv",
+      "role": "hook",
+      "source_kind": "image",
+      "asset_id": "ast_a3b25d55a1ac",
+      "clip_in_s": null,
+      "clip_out_s": null,
+      "planned_duration_s": 4.5,
+      "headline": "Manage your studio finances with ease",
+      "subline": "See outstanding and overdue totals at a glance.",
+      "narration": "Tallyfox helps creative studios manage finances. See outstanding and overdue totals at a glance right from your dashboard.",
+      "selection_reason": "The dashboard provides an immediate overview of financial health, supporting the first selling point.",
+      "claims": [
+        {
+          "id": "clm_bfc4ec8a",
+          "text": "Tallyfox is invoicing software for freelancers and small studios.",
+          "basis": "user_detail",
+          "source_ref": "description",
+          "status": "ok"
+        },
+        {
+          "id": "clm_bdb02d93",
+          "text": "See outstanding and overdue totals at a glance.",
+          "basis": "user_detail",
+          "source_ref": "selling_point_1",
+          "status": "ok"
+        }
+      ],
+      "fit_mode": "contain",
+      "focus_region": {
+        "x": 0.18,
+        "y": 0.22,
+        "w": 0.79,
+        "h": 0.18
+      },
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.3
+      },
+      "highlight": {
+        "x": 0.18,
+        "y": 0.22,
+        "w": 0.79,
+        "h": 0.18
+      },
+      "motion": "gentle_push_in",
+      "transition_in": "cut",
+      "origin": "openrouter"
+    },
+    {
+      "id": "scn_3xmety9d",
+      "role": "step",
+      "source_kind": "clip",
+      "asset_id": "ast_1fb0a48dc45c",
+      "clip_in_s": 0.0,
+      "clip_out_s": 7.0,
+      "planned_duration_s": 7.0,
+      "headline": "Create invoices in one screen",
+      "subline": "Streamline your billing process.",
+      "narration": "Creating an invoice is simple. Open the creator to fill in client details and line items in one screen.",
+      "selection_reason": "This clip shows the workflow of starting a new invoice as described in the workflow notes.",
+      "claims": [
+        {
+          "id": "clm_4113d439",
+          "text": "Create and send an invoice in one screen.",
+          "basis": "user_detail",
+          "source_ref": "selling_point_2",
+          "status": "ok"
+        }
+      ],
+      "fit_mode": "contain",
+      "focus_region": null,
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "highlight": null,
+      "motion": "static",
+      "transition_in": "dissolve",
+      "origin": "openrouter"
+    },
+    {
+      "id": "scn_fqdfgtki",
+      "role": "step",
+      "source_kind": "clip",
+      "asset_id": "ast_1fb0a48dc45c",
+      "clip_in_s": 12.6,
+      "clip_out_s": 14.0,
+      "planned_duration_s": 2.5,
+      "headline": "Send with confidence",
+      "subline": "",
+      "narration": "Once ready, just click send to deliver the invoice to your client.",
+      "selection_reason": "This clip shows the final step of the invoicing process.",
+      "claims": [
+        {
+          "id": "clm_4c3be488",
+          "text": "Create and send an invoice in one screen.",
+          "basis": "user_detail",
+          "source_ref": "selling_point_2",
+          "status": "ok"
+        },
+        {
+          "id": "clm_87da90c0",
+          "text": "Get your invoices out instantly.",
+          "basis": "inferred",
+          "source_ref": null,
+          "status": "removed"
+        }
+      ],
+      "fit_mode": "contain",
+      "focus_region": null,
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "highlight": null,
+      "motion": "static",
+      "transition_in": "cut",
+      "origin": "user"
+    },
+    {
+      "id": "scn_tc3u14yk",
+      "role": "showcase",
+      "source_kind": "image",
+      "asset_id": "ast_8cb8088a39b2",
+      "clip_in_s": null,
+      "clip_out_s": null,
+      "planned_duration_s": 4.5,
+      "headline": "Track revenue by client",
+      "subline": "Understand your studio's performance.",
+      "narration": "Tallyfox provides clear reports, so you can track revenue by client over time.",
+      "selection_reason": "This highlights the reporting feature mentioned in the user details.",
+      "claims": [
+        {
+          "id": "clm_5b8fb65b",
+          "text": "Revenue by client report.",
+          "basis": "user_detail",
+          "source_ref": "selling_point_3",
+          "status": "ok"
+        }
+      ],
+      "fit_mode": "contain",
+      "focus_region": {
+        "x": 0.18,
+        "y": 0.21,
+        "w": 0.79,
+        "h": 0.63
+      },
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "highlight": {
+        "x": 0.18,
+        "y": 0.21,
+        "w": 0.79,
+        "h": 0.63
+      },
+      "motion": "pan_left",
+      "transition_in": "dissolve",
+      "origin": "openrouter"
+    },
+    {
+      "id": "scn_yws0wo08",
+      "role": "cta",
+      "source_kind": "title_card",
+      "asset_id": null,
+      "clip_in_s": null,
+      "clip_out_s": null,
+      "planned_duration_s": 4.0,
+      "headline": "Start free today",
+      "subline": "tallyfox.example",
+      "narration": "Start free today at tallyfox dot example.",
+      "selection_reason": "Clear call to action based on user provided text.",
+      "claims": [
+        {
+          "id": "clm_506e7103",
+          "text": "Start free today",
+          "basis": "user_detail",
+          "source_ref": "cta_text",
+          "status": "ok"
+        }
+      ],
+      "fit_mode": "contain",
+      "focus_region": null,
+      "focal_point": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "highlight": null,
+      "motion": "static",
+      "transition_in": "dissolve",
+      "origin": "openrouter"
+    }
+  ],
+  "warnings": [
+    "The recording was analysed from 5 sampled frames, not watched in full. Check clip in/out points. Its original audio is muted; narration is newly generated."
+  ],
+  "estimated_cost_usd": 0.017105,
+  "cost_is_estimate": false,
+  "generated_by": "openrouter",
+  "generation_models": {
+    "vision": "google/gemini-3.1-flash-lite",
+    "story": "google/gemini-3.1-flash-lite",
+    "tts": "hexgrad/kokoro-82m",
+    "voice": "af_heart"
+  }
+}

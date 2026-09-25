@@ -79,6 +79,20 @@ Issues found live and fixed:
 2. **Very thin crops.** The planner sometimes chose a crop strip about 7:1 wide, which floated in an empty frame. The renderer now widens over-thin crops symmetrically, within the image.
 3. **Narration too long.** Narration could run up to 1.35× the word budget, so the planner check now allows at most 1.15×.
 
-A real project costs about $0.013–0.014 per story plus narration, well under the conservative $0.13 upper-bound estimate.
+Later live runs, all passing:
 
-Not yet exercised live: scene regeneration (same code path as planning, tested with mocks); physical-product and recording-only cases at 1080p; and listening to the audio by ear (it was only checked programmatically).
+| Run | Reported cost | Runtime vs 30 s target |
+|---|---|---|
+| Images-only 16:9 (physical product) | $0.0059 | 28.9 s |
+| Recording-only 9:16 | $0.0089 | 23.5 s |
+| Scene regeneration and accept | $0.0016 | — |
+| Full UI walkthrough ([docs/demo/](demo/)) | $0.017 | 31.5 s |
+
+More issues found live and fixed:
+
+4. **Ungrounded outcome claims.** The AI wrote "Get paid faster", "free trial" and "instantly", none of which were in the brief. The planner prompt now forbids outcome and offer claims unless the user's text contains them, and the local claim guard flags them for confirmation.
+5. **Crops slicing text.** AI crops cut through UI text at their edges. They now get a safety margin.
+
+A real project costs about $0.013–0.017 per story plus narration, well under the conservative $0.13 upper-bound estimate.
+
+Not yet done: listening to the audio by ear (it was only checked programmatically).

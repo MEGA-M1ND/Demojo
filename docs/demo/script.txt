@@ -1,0 +1,26 @@
+Tallyfox — narration script
+Aspect 16:9 · requested 30s · computed 31.5s
+
+Scene 1 [hook] 00.00s – 10.13s
+  On screen: Manage your studio finances with ease
+  Subline:   See outstanding and overdue totals at a glance.
+  Narration: Tallyfox helps creative studios manage finances. See outstanding and overdue totals at a glance right from your dashboard.
+
+Scene 2 [step] 09.73s – 17.73s
+  On screen: Create invoices in one screen
+  Subline:   Streamline your billing process.
+  Narration: Creating an invoice is simple. Open the creator to fill in client details and line items in one screen.
+
+Scene 3 [step] 17.73s – 22.37s
+  On screen: Send with confidence
+  Narration: Once ready, just click send to deliver the invoice to your client.
+
+Scene 4 [showcase] 21.97s – 27.87s
+  On screen: Track revenue by client
+  Subline:   Understand your studio's performance.
+  Narration: Tallyfox provides clear reports, so you can track revenue by client over time.
+
+Scene 5 [cta] 27.47s – 31.47s
+  On screen: Start free today
+  Subline:   tallyfox.example
+  Narration: Start free today at tallyfox dot example.

@@ -1,0 +1,27 @@
+1
+00:00:00,267 --> 00:00:03,990
+Tallyfox helps creative studios manage finances.
+
+2
+00:00:03,990 --> 00:00:09,653
+See outstanding and overdue totals at a glance right from your dashboard.
+
+3
+00:00:10,133 --> 00:00:12,228
+Creating an invoice is simple.
+
+4
+00:00:12,228 --> 00:00:17,255
+Open the creator to fill in client details and line items in one screen.
+
+5
+00:00:18,000 --> 00:00:21,888
+Once ready, just click send to deliver the invoice to your client.
+
+6
+00:00:22,367 --> 00:00:27,383
+Tallyfox provides clear reports, so you can track revenue by client over time.
+
+7
+00:00:27,867 --> 00:00:30,795
+Start free today at tallyfox dot example.

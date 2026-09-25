@@ -394,7 +394,9 @@ export function ReviewStep({ project, reload, onNext, onBack }: { project: Proje
                       {s.origin === 'user' && <span className="pill pill-edited">edited</span>}
                       {pending > 0 && <span className="pill pill-warn">{pending} to confirm</span>}
                     </div>
-                    <strong className="scene-headline">{s.headline || <span className="muted">(no headline)</span>}</strong>
+                    <strong className="scene-headline">
+                      {s.headline || <span className="muted">{s.source_kind === 'title_card' ? (sb.branding.logo_asset_id ? '(logo)' : sb.branding.product_name) : '(no headline)'}</span>}
+                    </strong>
                     <span className="scene-narr muted small">{s.narration || '(no narration)'}</span>
                     {s.selection_reason && <span className="scene-reason small">{s.selection_reason}</span>}
                   </div>

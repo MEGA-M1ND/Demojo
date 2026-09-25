@@ -32,7 +32,7 @@ from .storyboard import FPS, Scene, Storyboard
 from .text_render import TextFitError, draw_block, layout
 from .timeline import Timeline, TimelineScene
 
-RENDERER_VERSION = "demojo-render/8"
+RENDERER_VERSION = "demojo-render/9"
 AUDIO_RATE = 48000
 SAMPLES_PER_FRAME = AUDIO_RATE // FPS  # 1600
 
@@ -253,18 +253,22 @@ def source_region(sc: Scene, src_w: int, src_h: int, box: Box) -> tuple[float, f
     """Normalised region of the source to show (focus region, then optional cover crop)."""
     if sc.focus_region is not None:
         x, y, w, h = sc.focus_region.x, sc.focus_region.y, sc.focus_region.w, sc.focus_region.h
+        # A small safety margin so crop edges don't slice through UI text at the region's border.
+        m = 0.035
+        x0, y0 = max(0.0, x - m), max(0.0, y - m)
+        x, y, w, h = x0, y0, min(1.0, x + w + m) - x0, min(1.0, y + h + m) - y0
     else:
         x, y, w, h = 0.0, 0.0, 1.0, 1.0
     # A very thin focus strip would float in an empty frame: grow it (symmetrically,
-    # inside the image) until it is at most 1.6x wider or taller than the frame's content box.
+    # inside the image) until it is at most 1.3x wider or taller than the frame's content box.
     box_aspect = box.w / box.h
     aspect = (w * src_w) / max(1e-6, h * src_h)
-    if aspect > box_aspect * 1.6:
-        nh = min(1.0, (w * src_w) / (box_aspect * 1.6) / src_h)
+    if aspect > box_aspect * 1.3:
+        nh = min(1.0, (w * src_w) / (box_aspect * 1.3) / src_h)
         y = min(max(y + h / 2 - nh / 2, 0.0), 1.0 - nh)
         h = nh
-    elif aspect < box_aspect / 1.6:
-        nw = min(1.0, (h * src_h) * box_aspect / 1.6 / src_w)
+    elif aspect < box_aspect / 1.3:
+        nw = min(1.0, (h * src_h) * box_aspect / 1.3 / src_w)
         x = min(max(x + w / 2 - nw / 2, 0.0), 1.0 - nw)
         w = nw
     if sc.fit_mode == "cover":
